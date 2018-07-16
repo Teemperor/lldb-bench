@@ -1,0 +1,16 @@
+.bash_history
+.bash_logout
+.bash_profile
+.bashrc
+.cache
+.ccache
+.config
+.lesshst
+.local
+.screenrc
+.wget-hsts
+benchmarks_build
+build
+llvm
+records
+tmp
