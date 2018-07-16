@@ -9,6 +9,7 @@
 .local
 .screenrc
 .wget-hsts
+.gitconfig
 benchmarks_build
 build
 llvm
