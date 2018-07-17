@@ -16,3 +16,4 @@ llvm
 records
 tmp
 .lldb
+benchmarks/.tmp_dir
