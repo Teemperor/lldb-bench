@@ -7,7 +7,7 @@ set style line 1 lc rgb '#0060ad' lt 1 lw 2 pt 7 pi -1 ps 0.5
 set style line 2 lc rgb '#6000ad' lt 1 lw 2 pt 7 pi -1 ps 0.5
 set style line 3 lc rgb '#ad6000' lt 1 lw 2 pt 7 pi -1 ps 0.5
 
-#set title "Instructions of BENCH_NAME"
+set title "Benchmark: BENCH_NAME"
 set style data fsteps
 set xlabel "Date\n"
 set timefmt '%Y-%m-%d'

@@ -16,8 +16,8 @@ output_dir="/var/www/lldb-bench/"
 
 benchmark_directories=`find $benchmark_dir -mindepth 1 -maxdepth 1`
 
-export CC="$tool_dir/build/bin/clang"
-export CXX="$tool_dir/build/bin/clang++"
+#export CC="$tool_dir/build/bin/clang"
+#export CXX="$tool_dir/build/bin/clang++"
 
 while read -r line; do
   echo "Building $line"
@@ -37,31 +37,34 @@ make_profile_single() {
   echo "Profiling $1"
 
   safe_name="$1"
-  command="$tool_dir/build/bin/lldb -S commands.lldb -- ./a.out"
+  command="lldb -x -S commands.lldb -o quit"
   runs="5"
 
   # Record instructions
   rm -f $tmp_dir/runtime_instructions.all
 
-  echo "Profiling using instructions of $safe_name..."
+  pwd
+  echo "Profiling using instructions of $safe_name... "
   for run in `seq $runs`;
   do
-    echo "Iteration $run"
-    bash -c "perf stat -e instructions:u $command" 2>"$tmp_dir/perf_out" 1>/dev/null
+    echo -n " *"
+    bash -c "perf stat -e instructions:u $command" 2>"$tmp_dir/perf_out" 1>stdout.log
     cat $tmp_dir/perf_out | grep instructions:u | awk '{print $1}' | tr -d "," >> $tmp_dir/runtime_instructions.all
   done
+  echo ""
   ~/make_average.py $tmp_dir/runtime_instructions.all $tmp_dir/runtime_instructions
   runtime_inst=`cat $tmp_dir/runtime_instructions | tr -d '[:space:]'`
 
-  echo "Profiling memory of $safe_name..."
+  echo "Profiling memory of $safe_name... "
   # Record memory
   rm -f $tmp_dir/runtime_mem.all
   for run in `seq $runs`;
   do
-    echo "Iteration $run"
-    bash -c "/usr/bin/time -v -o $tmp_dir/runtime_mem_tmp $command" 1>/dev/null 2>/dev/null
+    echo -n " *"
+    bash -c "/usr/bin/time -v -o $tmp_dir/runtime_mem_tmp $command" 1>stdout.log 2>stderr.log
     cat "$tmp_dir/runtime_mem_tmp" | grep "Maximum resident set size" | awk '{print $6}' >> $tmp_dir/runtime_mem.all
   done
+  echo ""
   ~/make_average.py $tmp_dir/runtime_mem.all $tmp_dir/runtime_mem
   runtime_mem=`cat $tmp_dir/runtime_mem | tr -d '[:space:]'`
 
@@ -84,13 +87,21 @@ make_profile_single() {
   echo "$html">> "$output_dir/index.new.html"
 }
 
+echo "Generating prefix"
 cp prefix.html "$output_dir/index.new.html"
 
-while read -r line; do
-  cd "$benchmark_dir/$line"
-  make_profile_single "$line"
-  cd "$tool_dir"
-done <<< `ls $benchmark_dir`
 
+cd "$tool_dir"
+
+for bench in $benchmark_dir/* ; do
+  bench=$(basename $bench)
+  echo "Benchmarking $bench"
+  cd "$benchmark_dir/$bench"
+  make_profile_single "$bench"
+  cd "$tool_dir"
+done
+
+echo "Appending suffix"
 cat suffix.html >> "$output_dir/index.new.html"
+echo "Moving HTML report to destination"
 mv "$output_dir/index.new.html" "$output_dir/index.html"

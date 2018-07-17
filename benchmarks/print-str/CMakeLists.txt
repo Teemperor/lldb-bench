@@ -1,3 +1,4 @@
-project(print_str)
+project(bench)
 
-add_executable(a.out main.cpp)
+set (CMAKE_CXX_STANDARD 11)
+add_executable(bench main.cpp)
