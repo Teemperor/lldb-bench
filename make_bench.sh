@@ -16,8 +16,8 @@ output_dir="/var/www/lldb-bench/"
 
 benchmark_directories=`find $benchmark_dir -mindepth 1 -maxdepth 1`
 
-#export CC="$tool_dir/build/bin/clang"
-#export CXX="$tool_dir/build/bin/clang++"
+export CC="$tool_dir/build/bin/clang"
+export CXX="$tool_dir/build/bin/clang++"
 
 while read -r line; do
   echo "Building $line"
@@ -37,7 +37,7 @@ make_profile_single() {
   echo "Profiling $1"
 
   safe_name="$1"
-  command="lldb -x -S commands.lldb -o quit"
+  command="$tool_dir/build/bin/lldb -x -S commands.lldb -o quit"
   runs="5"
 
   # Record instructions
@@ -85,11 +85,15 @@ make_profile_single() {
   html='<img class="benchmark" src="https://teemperor.de/lldb-bench/safe_name.svg" height="100%" style="display: none;">'
   html=${html/safe_name/$safe_name}
   echo "$html">> "$output_dir/index.new.html"
+
+  html='<img class="benchmark" src="https://teemperor.de/lldb-bench/safe_name.svg" height="100%"">'
+  html=${html/safe_name/$safe_name}
+  echo "$html">> "$output_dir/static.new.html"
 }
 
 echo "Generating prefix"
 cp prefix.html "$output_dir/index.new.html"
-
+cp prefix-static.html "$output_dir/static.new.html"
 
 cd "$tool_dir"
 
@@ -103,5 +107,7 @@ done
 
 echo "Appending suffix"
 cat suffix.html >> "$output_dir/index.new.html"
+cat suffix.html >> "$output_dir/static.new.html"
 echo "Moving HTML report to destination"
 mv "$output_dir/index.new.html" "$output_dir/index.html"
+mv "$output_dir/static.new.html" "$output_dir/static.html"

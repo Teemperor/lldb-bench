@@ -2,5 +2,4 @@ target create ./bench
 b main
 r
 n
-p s
 quit
