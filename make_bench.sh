@@ -81,6 +81,9 @@ make_profile_single() {
   cd "$tmp_dir"
   gnuplot plot.gp
   chmod 755 benchmark.svg
+
+  # Append git commit to safe name to fix caching issues on browsers.
+  safe_name="$safe_name.$git_commit"
   cp benchmark.svg "$output_dir/$safe_name.svg"
   html='<img class="benchmark" src="https://teemperor.de/lldb-bench/safe_name.svg" height="100%" style="display: none;">'
   html=${html/safe_name/$safe_name}
