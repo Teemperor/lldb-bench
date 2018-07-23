@@ -13,6 +13,7 @@ rm -rf "$benchmark_dir"
 cp -r benchmarks "$benchmark_dir"
 
 output_dir="/var/www/lldb-bench/"
+data_out_dir="/var/www/lldb-bench/data/"
 
 benchmark_directories=`find $benchmark_dir -mindepth 1 -maxdepth 1`
 
@@ -114,3 +115,8 @@ cat suffix.html >> "$output_dir/static.new.html"
 echo "Moving HTML report to destination"
 mv "$output_dir/index.new.html" "$output_dir/index.html"
 mv "$output_dir/static.new.html" "$output_dir/static.html"
+
+cp $record_dir/* "$data_out_dir/"
+cd "$data_out_dir"
+git add *
+git commit -am "Added stats for lldb commit $git_commit"
