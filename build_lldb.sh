@@ -12,10 +12,11 @@ cd build
 
 ccache -s
 
-export PATH="/usr/lib/ccache/bin/:$PATH"
+#export PATH="/usr/lib/ccache/bin/:$PATH"
 export CC="clang"
 export CXX="clang++"
 
-cmake -DLLVM_ENABLE_MODULES=On -DCMAKE_BUILD_TYPE=Release -GNinja ../llvm
+#-DLLVM_ENABLE_MODULES=On
+cmake -DLLVM_PARALLEL_LINK_JOBS=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLLVM_LINK_LLVM_DYLIB=On -GNinja ../llvm
 
-ionice -t -c 3 nice -n 19 ninja -j2
+ionice -t -c 3 nice -n 19 ninja -j2 lldb clang

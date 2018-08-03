@@ -34,6 +34,15 @@ record_dir=`realpath ~/records/`
 mkdir -p "$tmp_dir"
 mkdir -p "$record_dir"
 
+makeflamegraph() {
+  outfile="$1"
+  shift
+  perf record -F 1000 --call-graph dwarf -- "$@"
+  perf script | stackcollapse-perf.pl > .out.perf-folded
+  flamegraph.pl .out.perf-folded > "$outfile"
+  rm .out.perf-folded
+}
+
 make_profile_single() {
   echo "Profiling $1"
 
@@ -68,6 +77,11 @@ make_profile_single() {
   echo ""
   ~/make_average.py $tmp_dir/runtime_mem.all $tmp_dir/runtime_mem
   runtime_mem=`cat $tmp_dir/runtime_mem | tr -d '[:space:]'`
+
+  echo "Making flamegraph"
+  graph_file="$data_out_dir/safe_name.svg"
+  graph_file=${graph_file/safe_name/$safe_name}
+  makeflamegraph "$graph_file" $command
 
   echo "$git_time $git_commit $runtime_mem" >> $record_dir/lldb-$safe_name.mem.dat
   echo "$git_time $git_commit $runtime_inst" >> $record_dir/lldb-$safe_name.inst.dat
@@ -118,5 +132,5 @@ mv "$output_dir/static.new.html" "$output_dir/static.html"
 
 cp $record_dir/* "$data_out_dir/"
 cd "$data_out_dir"
-git add *
+git add *.dat
 git commit -am "Added stats for lldb commit $git_commit"
