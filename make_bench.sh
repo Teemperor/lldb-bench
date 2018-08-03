@@ -37,7 +37,7 @@ mkdir -p "$record_dir"
 makeflamegraph() {
   outfile="$1"
   shift
-  perf record -F 1000 --call-graph dwarf -- "$@"
+  perf record -F 1000 --call-graph dwarf -- "$@" > /dev/null
   perf script | stackcollapse-perf.pl > .out.perf-folded
   flamegraph.pl .out.perf-folded > "$outfile"
   rm .out.perf-folded
@@ -98,13 +98,16 @@ make_profile_single() {
   chmod 755 benchmark.svg
 
   # Append git commit to safe name to fix caching issues on browsers.
+  pure_safe_name="$safe_name"
   safe_name="$safe_name.$git_commit"
   cp benchmark.svg "$output_dir/$safe_name.svg"
-  html='<img class="benchmark" src="https://teemperor.de/lldb-bench/safe_name.svg" height="100%" style="display: none;">'
+  html='<a style="display: none;" href="https://teemperor.de/lldb-bench/data/pure_safe_name.svg" class="benchmark"><img src="https://teemperor.de/lldb-bench/safe_name.svg" height="100%"></a>'
+  html=${html/pure_safe_name/$pure_safe_name}
   html=${html/safe_name/$safe_name}
   echo "$html">> "$output_dir/index.new.html"
 
-  html='<img class="benchmark" src="https://teemperor.de/lldb-bench/safe_name.svg" height="100%"">'
+  html='<a href="https://teemperor.de/lldb-bench/data/pure_safe_name.svg" class="benchmark"><img src="https://teemperor.de/lldb-bench/safe_name.svg" height="100%""></a>'
+  html=${html/pure_safe_name/$pure_safe_name}
   html=${html/safe_name/$safe_name}
   echo "$html">> "$output_dir/static.new.html"
 }
