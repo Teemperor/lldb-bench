@@ -1,0 +1,16 @@
+target create ./bench
+b main
+b part1veryLongFunctionNameToMakeTheBenchmarkBigger0
+b part3veryLongFunctionNameToMakeTheBenchmarkBigger0
+b part2veryLongFunctionNameToMakeTheBenchmarkBigger0
+b part4veryLongFunctionNameToMakeTheBenchmarkBigger0
+r
+c
+bt
+c
+bt
+c
+bt
+c
+bt
+c
