@@ -1,4 +1,5 @@
 target create ./bench
+settings set use-color true
 b main
 r
 s
