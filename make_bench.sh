@@ -37,7 +37,7 @@ mkdir -p "$record_dir"
 makeflamegraph() {
   outfile="$1"
   shift
-  perf record -F 1000 --call-graph dwarf -- "$@" > /dev/null
+  perf record -F 500 --call-graph dwarf -- "$@" > /dev/null
   perf script | stackcollapse-perf.pl > .out.perf-folded
   flamegraph.pl .out.perf-folded > "$outfile"
   rm .out.perf-folded
