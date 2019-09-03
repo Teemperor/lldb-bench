@@ -12,8 +12,10 @@
 .gitconfig
 benchmarks_build
 build
-llvm
+llvm-project
 records
+records.old
 tmp
 .lldb
 benchmarks/.tmp_dir
+.*
