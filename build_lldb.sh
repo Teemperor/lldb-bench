@@ -17,6 +17,6 @@ export CC="clang"
 export CXX="clang++"
 
 #-DLLVM_ENABLE_MODULES=On
-cmake -DLLVM_PARALLEL_LINK_JOBS=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLLVM_LINK_LLVM_DYLIB=On -GNinja ../llvm
+cmake -DLLVM_ENABLE_MODULES=On -DLLVM_ENABLE_PROJECTS="clang;lldb;libc++;libc++abi" -DLLVM_PARALLEL_LINK_JOBS=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLLVM_ENABLE_MODULE_DEBUGGING=On -DCMAKE_CXX_FLAGS="-stdlib=libc++" -GNinja ../llvm-project/llvm
 
-ionice -t -c 3 nice -n 19 ninja -j2 lldb clang
+ionice -t -c 3 nice -n 19 ninja -j2 lldb clang lldb-server

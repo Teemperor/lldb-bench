@@ -3,7 +3,7 @@ set -e
 tool_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 cd "$tool_dir"
-cd "llvm/tools/lldb/"
+cd "llvm-project/"
 git_time=`date "+%F %H:%M"`
 git_commit=`git log -1 --format="%H" `
 cd "$tool_dir"

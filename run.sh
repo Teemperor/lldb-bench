@@ -9,3 +9,4 @@ git pull
 bash update_lldb.sh
 bash build_lldb.sh
 bash make_bench.sh
+rm -rf build
