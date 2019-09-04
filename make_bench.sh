@@ -135,5 +135,7 @@ mv "$output_dir/static.new.html" "$output_dir/static.html"
 
 cp $record_dir/* "$data_out_dir/"
 cd "$data_out_dir"
+echo "Publishing data"
 git add *.dat
 git commit -am "Added stats for lldb commit $git_commit"
+git push my master
