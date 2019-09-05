@@ -1,0 +1,6 @@
+target create ./bench
+br s -r part1veryLongFunctionNameToMakeTheBenchmarkBigger0
+r
+expr someothername0::someothername1::someothername2::someothername3::someothername4::someothername5::someothername6::someothername7::someothername8::someothername9::part2veryLongFunctionNameToMakeTheBenchmarkBigger0()
+expr someothername0::someothername1::someothername2::someothername3::someothername4::someothername5::someothername6::someothername7::someothername8::someothername9::part3veryLongFunctionNameToMakeTheBenchmarkBigger0()
+expr someothername0::someothername1::someothername2::someothername3::someothername4::someothername5::someothername6::someothername7::someothername8::someothername9::part4veryLongFunctionNameToMakeTheBenchmarkBigger0()
