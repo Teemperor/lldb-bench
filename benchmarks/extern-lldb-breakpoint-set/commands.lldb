@@ -1,0 +1,4 @@
+target create ~/bench-bin/lldb/bin/lldb
+b main
+b ClangExpressionParser::ParseInternal
+b dumpColor
