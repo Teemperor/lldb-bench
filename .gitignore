@@ -19,3 +19,4 @@ tmp
 .lldb
 benchmarks/.tmp_dir
 .*
+*.html
