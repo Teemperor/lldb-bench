@@ -1,0 +1,11 @@
+target create ~/bench-bin/lldb/bin/lldb
+b ClangExpressionParser::ParseInternal
+run -o "expr 1+1" -b
+n
+n
+n
+n
+n
+n
+n
+expr std::vector
