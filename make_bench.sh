@@ -39,7 +39,7 @@ makeflamegraph() {
   shift
   perf record -F 500 --call-graph dwarf -- "$@" > /dev/null
   perf script | stackcollapse-perf.pl > .out.perf-folded
-  flamegraph.pl .out.perf-folded > "$outfile"
+  flamegraph.pl --width 1800 --fontsize 10 .out.perf-folded > "$outfile"
   rm .out.perf-folded
 }
 

@@ -8,7 +8,7 @@ set style line 2 lc rgb '#6000ad' lt 1 lw 2 pt 7 pi -1 ps 0.5
 set style line 3 lc rgb '#ad6000' lt 1 lw 2 pt 7 pi -1 ps 0.5
 
 set title "Benchmark: BENCH_NAME"
-set style data fsteps
+set style data fsteps lc rgb "red"
 set xlabel "Date\n"
 set timefmt '%Y-%m-%d'
 set yrange [ 0 : ]
@@ -23,7 +23,7 @@ plot 'inst.dat' using 1:4 t 'instructions' with linespoints ls 1
 
 
 #set title "Memory of BENCH_NAME"
-set style data fsteps
+set style data fsteps lc rgb "blue"
 set xlabel "Date\n"
 set timefmt '%Y-%m-%d'
 set yrange [ 0 : ]
