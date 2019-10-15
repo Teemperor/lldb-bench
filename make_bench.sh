@@ -106,7 +106,7 @@ make_profile_single() {
   html=${html/safe_name/$safe_name}
   echo "$html">> "$output_dir/index.new.html"
 
-  html='<a href="https://teemperor.de/lldb-bench/data/pure_safe_name.svg" class="benchmark"><img src="https://teemperor.de/lldb-bench/safe_name.svg" height="100%""></a>'
+  html='<hr> <a href="https://teemperor.de/lldb-bench/data/pure_safe_name.svg" class="benchmark"><img src="https://teemperor.de/lldb-bench/safe_name.svg" height="100%""></a>'
   html=${html/pure_safe_name/$pure_safe_name}
   html=${html/safe_name/$safe_name}
   echo "$html">> "$output_dir/static.new.html"
