@@ -37,9 +37,13 @@ mkdir -p "$record_dir"
 makeflamegraph() {
   outfile="$1"
   shift
+  outfile_perf="$1"
+  shift
   perf record -F 500 --call-graph dwarf -- "$@" > /dev/null
   perf script | stackcollapse-perf.pl > .out.perf-folded
   flamegraph.pl --width 1800 --fontsize 10 .out.perf-folded > "$outfile"
+  cp perf.data "$outfile_perf"
+  cp .out.perf-folded "$outfile_perf.folded"
   rm .out.perf-folded
 }
 
@@ -81,7 +85,9 @@ make_profile_single() {
   echo "Making flamegraph"
   graph_file="$data_out_dir/safe_name.svg"
   graph_file=${graph_file/safe_name/$safe_name}
-  makeflamegraph "$graph_file" $command
+  perf_file="$data_out_dir/safe_name.perf"
+  perf_file=${graph_file/safe_name/$safe_name}
+  makeflamegraph "$graph_file" "$perf_file" $command
 
   echo "$git_time $git_commit $runtime_mem" >> $record_dir/lldb-$safe_name.mem.dat
   echo "$git_time $git_commit $runtime_inst" >> $record_dir/lldb-$safe_name.inst.dat
