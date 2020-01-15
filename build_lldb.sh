@@ -13,8 +13,8 @@ cd build
 ccache -s
 
 #export PATH="/usr/lib/ccache/bin/:$PATH"
-#export CC="clang"
-#export CXX="clang++"
+export CC="clang"
+export CXX="clang++"
 export CC="/opt/clang-nightly/bin/clang"
 export CXX="/opt/clang-nightly/bin/clang++"
 
